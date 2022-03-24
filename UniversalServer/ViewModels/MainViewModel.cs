@@ -189,6 +189,8 @@ namespace UniversalServer.ViewModels
 
                 PressCurrentVal = new PressureValue() { DateAndTime = DateTime.Now, Value = druck };
 
+                string ipAdr = msg.Split(';')[3];
+
                 //Daten in die Datenbank schreiben.
                 try
                 {

@@ -25,15 +25,18 @@ namespace UniversalServer.Model
 
         public void Start()
         {
-
             StatusPropertyChanged("Starting Server...");
-            _serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            _serverSocket.Bind(new IPEndPoint(IPAddress.Any, 2020));
-            _serverSocket.Listen(5);
+
+            IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
+            IPAddress ipAddress = ipHostInfo.AddressList[0];
+            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
+
+            _serverSocket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+           
+            _serverSocket.Bind(localEndPoint);
+            _serverSocket.Listen(100);
             _serverSocket.BeginAccept(new AsyncCallback(DoAccept), null);
             StatusPropertyChanged("Waiting for Connection...");
-            //_dba = new DBAccess();
-            //_dba.InitDBConnection();
         }
 
 
